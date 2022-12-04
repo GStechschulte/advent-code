@@ -6,7 +6,7 @@ def main():
     sum = 0
     deer_idx = 0
     calories = {}
-    with open('../data/deer_calories.txt', 'r') as f:
+    with open('./data/deer_calories.txt', 'r') as f:
         
         for row in f.readlines():
             if (row[0] != '\n'):
@@ -18,8 +18,12 @@ def main():
         
         f.close()
 
+    ## Part 1 ##
+
     top_n = dict(Counter(calories).most_common(3))
     print(top_n)
+
+    ## Part 2 ##
     
     total = 0
     for val in top_n.values():

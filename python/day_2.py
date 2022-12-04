@@ -4,7 +4,7 @@ import numpy as np
 def main():
 
     strat = pd.read_csv(
-        '../data/strategy_guide.txt', sep=" ", names=['opponent', 'you']
+        './data/strategy_guide.txt', sep=" ", names=['opponent', 'you']
         )
     part_1_df = strat.copy()
     part_2_df = strat.copy()
