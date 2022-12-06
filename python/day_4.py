@@ -1,4 +1,4 @@
-
+import numpy as np
 
 
 def main():
@@ -26,7 +26,21 @@ def main():
 
     ## Part 2 ##
 
-    
+    cnt = 0
+    for pair in content:
+
+        partition_1 = pair[0].rpartition('-')
+        partition_2 = pair[1].rpartition('-')
+
+        range_1 = np.arange(int(partition_1[0]), int(partition_1[2])+1, 1)
+        range_2 = np.arange(int(partition_2[0]), int(partition_2[2])+1, 1)
+
+        overlap = np.isin(range_1, range_2)
+
+        if True in overlap:
+            cnt += 1
+
+    print(f'Count of overlapping assigment pairs: {cnt}')
 
 
 if __name__ == '__main__':
