@@ -4,30 +4,43 @@ from dataclasses import dataclass
 class SupplyStacks:
 
     crates: dict
+    rule: None
 
     def decode_rule(self, rule_str):
-
         self.rule = [int(i) for i in rule_str.split() if i.isdigit()]
 
-
     def remove(self):
-
         removed = [self.crates[self.rule[1]].pop(-1) for _ in range(1, self.rule[0]+1)]
 
         return removed
         
 
     def add(self, removed_crates):
-
         for crate in removed_crates:
             self.crates[self.rule[2]].append(crate)
         
-    def top(self):
 
+    def top(self):
         top = [stack[-1] for stack in list(self.crates.values())]
         
         return top
+    
+
+class part_two(SupplyStacks):
+
+    def __init__(self, crates=dict, rule=None):
+        super().__init__(crates=dict, rule=None)
+    
+    def remove(self):
+
+        if self.rule[0] > 1:
+            removed = self.crates[self.rule[1]][-self.rule[0]:]
+            del self.crates[self.rule[1]][-self.rule[0]:]
+        else:
+            removed = [self.crates[self.rule[1]].pop(-1) for _ in range(1, self.rule[0]+1)]
         
+        return removed
+    
 
 def main():
 
@@ -46,14 +59,28 @@ def main():
     with open('./data/cargo.txt', 'r') as f:
         rules = [row.strip() for row in f.readlines()[10:]]
     
-    ss = SupplyStacks(shipping)
+    ss1 = SupplyStacks(shipping)
+    ss2 = part_two(crates=shipping)
+    ss2.crates = shipping
 
     for rule in rules:
-        ss.decode_rule(rule) 
-        removed_crates = ss.remove()
-        ss.add(removed_crates)
         
-    print(f"stack tops are: {ss.top()}")
+        ## part 1 ##
+        ss1.decode_rule(rule)
+        removed_crates = ss1.remove()
+        ss1.add(removed_crates)
+
+        ## part 2 ##
+        ss2.decode_rule(rule)
+        removed_crates = ss2.remove()
+        ss2.add(removed_crates)
+    
+    print('='*25)
+    print('part 1')
+    print(f"stack tops are: {ss1.top()}")
+    print('='*25)
+    print('part 1')
+    print(f"stack tops are: {ss2.top()}")
    
 
 if __name__ == '__main__':
