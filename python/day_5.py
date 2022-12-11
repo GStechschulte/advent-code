@@ -28,9 +28,13 @@ class SupplyStacks:
 
 class part_two(SupplyStacks):
 
+
     def __init__(self, crates=dict, rule=None):
         super().__init__(crates=dict, rule=None)
+        self.crates = crates
+        self.rule = rule
     
+
     def remove(self):
 
         if self.rule[0] > 1:
@@ -59,9 +63,7 @@ def main():
     with open('./data/cargo.txt', 'r') as f:
         rules = [row.strip() for row in f.readlines()[10:]]
     
-    ss1 = SupplyStacks(shipping)
-    ss2 = part_two(crates=shipping)
-    ss2.crates = shipping
+    ss1 = SupplyStacks(crates=shipping, rule=None)
 
     for rule in rules:
         
@@ -69,17 +71,20 @@ def main():
         ss1.decode_rule(rule)
         removed_crates = ss1.remove()
         ss1.add(removed_crates)
+    
+    print('='*10, 'part 1', '='*10)
+    print(f"stack tops are: {ss1.top()}")
+
+    ss2 = part_two(crates=shipping, rule=None)
+    
+    for rule in rules:
 
         ## part 2 ##
         ss2.decode_rule(rule)
         removed_crates = ss2.remove()
         ss2.add(removed_crates)
-    
-    print('='*25)
-    print('part 1')
-    print(f"stack tops are: {ss1.top()}")
-    print('='*25)
-    print('part 1')
+
+    print('='*10, 'part 2', '='*10)
     print(f"stack tops are: {ss2.top()}")
    
 
